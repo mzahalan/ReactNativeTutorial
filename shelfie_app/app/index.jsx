@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
+import { Link } from 'expo-router'
 import React from 'react'
 
 import Logo from '../assets/img/logo_light.png'
@@ -11,6 +12,12 @@ const Home = () => {
       <Text style={{marginTop: 10, marginBottom: 30}}>
         Reading List App
       </Text>
+      <Link href="/about" style={styles.link}>
+        About
+      </Link>
+      <Link href="/contact" style={styles.link}>
+        Contact
+      </Link>
       {/*
       The Card View was a demonstartion from the second video in the tutorial.
       We won't be using it going forward. Leaving it here for demo purposes.
@@ -33,6 +40,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    link: {
+        marginVertical: 10,
+        borderBottomWidth: 1
     },
     /*
     card: {
