@@ -1,7 +1,11 @@
-import { StatusBar, StyleSheet, Text, View, useColorScheme } from 'react-native'
-import React from 'react'
+import { StatusBar, StyleSheet, useColorScheme } from 'react-native'
 import { Link } from 'expo-router'
+
 import { Colors } from '../constants/colors'
+
+
+import ThemedView from '../components/ThemedView'
+import ThemedText from '../components/ThemedText'
 
 const About = () => {
   const colorScheme = useColorScheme()
@@ -10,12 +14,12 @@ const About = () => {
   return (
     <>
     <StatusBar value="auto" />
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <Text style={styles.title}>About Page</Text>
+    <ThemedView style={[styles.container, {backgroundColor: theme.background}]}>
+      <ThemedText title={true} style={styles.title}>About Page</ThemedText>
       <Link href="/" style={styles.link}>
-        Home
+        <ThemedText>Home</ThemedText>
       </Link>
-    </View>
+    </ThemedView>
     </>
   )
 }

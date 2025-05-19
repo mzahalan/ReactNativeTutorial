@@ -1,31 +1,31 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Link } from 'expo-router'
 import React from 'react'
 
-import Logo from '../assets/img/logo_light.png'
+
+// Themed Components
+import ThemedLogoImage from '../components/ThemedLogoImage'
+import ThemedView from '../components/ThemedView'
+import ThemedText from '../components/ThemedText'
+import Spacer from '../components/Spacer'
+
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <Image source={Logo} style={styles.img}/>
-      <Text style={[styles.title, {color: 'purple'}]}>The Number 1</Text>
-      <Text style={{marginTop: 10, marginBottom: 30}}>
-        Reading List App
-      </Text>
+    <ThemedView style={styles.container}>
+      <ThemedLogoImage />
+      <Spacer height={20}/>
+      <ThemedText title={true} style={styles.title}>The Number 1</ThemedText>
+      <Spacer height={10}/>
+      <ThemedText>Reading List App</ThemedText>
+      <Spacer height={10}/>
       <Link href="/about" style={styles.link}>
-        About
+      <ThemedText>About</ThemedText>
       </Link>
       <Link href="/contact" style={styles.link}>
-        Contact
+        <ThemedText>Contact</ThemedText>
       </Link>
-      {/*
-      The Card View was a demonstartion from the second video in the tutorial.
-      We won't be using it going forward. Leaving it here for demo purposes.
-      <View>
-        <Text style={styles.card}>Hello, This is a Card.</Text>
-      </View>
-      */}
-    </View>
+    </ThemedView>
   )
 }
 
@@ -44,16 +44,5 @@ const styles = StyleSheet.create({
     link: {
         marginVertical: 10,
         borderBottomWidth: 1
-    },
-    /*
-    card: {
-        backgroundColor: '#eee',
-        borderRadius: 5,
-        padding: 20,
-        boxShadow: '4px 4px rgba(0,0,0,0.1)'
-    },
-    */
-    img: {
-      marginVertical: 20,
     }
 })
