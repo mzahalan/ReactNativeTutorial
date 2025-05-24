@@ -1,28 +1,59 @@
-import { StyleSheet, Text } from 'react-native'
+import { Keyboard, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native'
+import { Link } from 'expo-router'
+import { useState } from 'react'
 
 // Themed Components
 import ThemedText from '../../components/ThemedText'
 import ThemedView from '../../components/ThemedView'
 import ThemedButton from '../../components/ThemedButton'
 import Spacer from '../../components/Spacer'
-import { Link } from 'expo-router'
+import ThemedTextInput from '../../components/ThemedTextInput'
 
 const Login = () => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     const handleSubmit = () => {
-    console.log('Login form submitted')
+    console.log(`Login form submitted: email: ${email}, password: ${password}`)
+    Keyboard.dismiss()
 }
   return (
-    <ThemedView style={styles.container}>
-        <Spacer/>
-        <ThemedText title={true} style={styles.title}>Login to Your Account</ThemedText>
-        <ThemedButton
-                onPress={handleSubmit}
-            >
-                <Text style={{textAlign: 'center', color: '#f2f2f2'}}>Login</Text>
-            </ThemedButton>
-        <Spacer height={100}/>
-        <Link href='/signup'><ThemedText style={{textAlign: 'center'}}>Create Account</ThemedText></Link>
-    </ThemedView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ThemedView style={styles.container}>
+            <Spacer/>
+            <ThemedText title={true} style={styles.title}>Login to Your Account</ThemedText>
+
+            <ThemedTextInput 
+                placeholder="Email"
+                keyboardType="email-address"
+                onChangeText={setEmail}
+                value={email}
+                style={{
+                    width: '80%',
+                    marginBottom: 20
+                }}
+            />
+
+            <ThemedTextInput 
+                placeholder="Password"
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry
+                style={{
+                    width: '80%',
+                    marginBottom: 20
+                }}
+            />
+
+            <ThemedButton
+                    onPress={handleSubmit}
+                >
+                    <Text style={{textAlign: 'center', color: '#f2f2f2'}}>Login</Text>
+                </ThemedButton>
+            <Spacer height={100}/>
+            <Link href='/signup'><ThemedText style={{textAlign: 'center'}}>Create Account</ThemedText></Link>
+        </ThemedView>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -37,7 +68,8 @@ const styles = StyleSheet.create({
     title: {
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 30
     }
 })
 
