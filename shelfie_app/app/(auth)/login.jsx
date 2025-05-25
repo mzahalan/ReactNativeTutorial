@@ -8,15 +8,19 @@ import ThemedView from '../../components/ThemedView'
 import ThemedButton from '../../components/ThemedButton'
 import Spacer from '../../components/Spacer'
 import ThemedTextInput from '../../components/ThemedTextInput'
+import useUser from '../../hooks/useUser'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const { user } = useUser()
+
     const handleSubmit = () => {
-    console.log(`Login form submitted: email: ${email}, password: ${password}`)
-    Keyboard.dismiss()
-}
+        console.log(`User: ${user}`)
+        console.log(`Login form submitted: email: ${email}, password: ${password}`)
+        Keyboard.dismiss()
+    }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ThemedView style={styles.container}>
