@@ -7,13 +7,23 @@ import ThemedText from '../../components/ThemedText'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedTextInput from '../../components/ThemedTextInput'
 import Spacer from '../../components/Spacer'
+import useUser from '../../hooks/useUser'
 
 const Signup = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = () => {
+    const { register } = useUser()
+
+    const handleSubmit = async () => {
         console.log(`Login form submitted: email: ${email}, password: ${password}`)
+
+        try{
+            await register(email, password)
+        }catch(error){
+            console.log(error.message)
+        }
+
         Keyboard.dismiss()
     }
     return (

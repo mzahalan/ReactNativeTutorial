@@ -1,4 +1,7 @@
 import { createContext, useState } from 'react';
+import { ID } from 'react-native-appwrite';
+
+import { account } from '../lib/appwrite';
 
 export const UserContext = createContext({
 //   user: {
@@ -11,15 +14,22 @@ export function UserProvider({ children }) {
     const [user, setUser] = useState(null)
 
     async function login(email, password) {
-        // const response = await fetch('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-        // const data = await response.json()
-        // setUser(data)
+        try {
+            await account.createEmailPasswordSession(email, password)
+            const user = await account.get()
+            setUser(user)
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     async function register(email, password) {
-        // const response = await fetch('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-        // const data = await response.json()
-        // setUser(data)
+        try {
+            await account.create(ID.unique(), email, password)
+            await login(email, password)
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     async function logout() {
