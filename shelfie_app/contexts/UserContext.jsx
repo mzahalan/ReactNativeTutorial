@@ -33,7 +33,10 @@ export function UserProvider({ children }) {
     }
 
     async function logout() {
-        // setUser(null)
+        console.log("Logging out user")
+        await account.deleteSession('current')
+        console.log("User logged out")
+        setUser(null)
     }
 
     return (
