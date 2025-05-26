@@ -3,6 +3,7 @@ import { Link } from 'expo-router'
 
 import { useState } from 'react'
 import useUser from '../../hooks/useUser'
+import { Colors } from '../../constants/colors'
 
 // Themed Components
 import Spacer from '../../components/Spacer'
@@ -15,16 +16,19 @@ import ThemedTextInput from '../../components/ThemedTextInput'
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState(null)
 
     const { login } = useUser()
 
     const handleSubmit = async () => {
+        setError(null)
         console.log(`Login form submitted: email: ${email}, password: ${password}`)
 
         try{
             await login(email, password)
         }catch(error){
             console.log(error.message)
+            setError(error.message)
         }
 
 
@@ -62,6 +66,8 @@ const Login = () => {
                 <ThemedButton onPress={handleSubmit}>
                     <Text style={{ textAlign: 'center', color: '#f2f2f2' }}>Login</Text>
                 </ThemedButton>
+                <Spacer />
+                {error && <Text style={styles.error}>{error}</Text>}
                 <Spacer height={100} />
                 <Link href='/signup'><ThemedText style={{ textAlign: 'center' }}>Create Account</ThemedText></Link>
             </ThemedView>
@@ -82,6 +88,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 30
+    },
+    error: {
+        color: Colors.warning,
+        padding: 10,
+        backgroundColor: '#f5c1c8',
+        borderColor: Colors.warning,
+        borderRadius: 6,
+        borderWidth: 1,
+        marginHorizontal: 10
     }
 })
 
