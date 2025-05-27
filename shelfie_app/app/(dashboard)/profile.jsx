@@ -8,11 +8,13 @@ import ThemedButton from '../../components/ThemedButton'
 
 
 const Profile = () => {
-  const { logout } = useUser()
+  const { logout, user } = useUser()
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText title={true} style={styles.heading}>Your Email</ThemedText>
+      <ThemedText title={true} style={styles.heading}>
+        {user?.email}
+      </ThemedText>
       <Spacer />
 
       <ThemedText>Time to start reading some books...</ThemedText>
