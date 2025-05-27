@@ -5,24 +5,27 @@ import Spacer from '../../components/Spacer'
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import ThemedButton from '../../components/ThemedButton'
+import UserOnly from '../../components/auth/UserOnly'
 
 
 const Profile = () => {
   const { logout, user } = useUser()
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText title={true} style={styles.heading}>
-        {user?.email}
-      </ThemedText>
-      <Spacer />
+    <UserOnly>
+      <ThemedView style={styles.container}>
+        <ThemedText title={true} style={styles.heading}>
+          {user?.email}
+        </ThemedText>
+        <Spacer />
 
-      <ThemedText>Time to start reading some books...</ThemedText>
-      <Spacer />
-      <ThemedButton onPress={logout}>
-        <ThemedText style={{color: '#f2f2f2'}}>Logout</ThemedText>
-      </ThemedButton>
-    </ThemedView>
+        <ThemedText>Time to start reading some books...</ThemedText>
+        <Spacer />
+        <ThemedButton onPress={logout}>
+          <ThemedText style={{ color: '#f2f2f2' }}>Logout</ThemedText>
+        </ThemedButton>
+      </ThemedView>
+    </UserOnly>
   )
 }
 
