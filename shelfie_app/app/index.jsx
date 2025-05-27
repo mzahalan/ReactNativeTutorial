@@ -7,11 +7,12 @@ import ThemedLogoImage from '../components/ThemedLogoImage'
 import ThemedView from '../components/ThemedView'
 import ThemedText from '../components/ThemedText'
 import Spacer from '../components/Spacer'
+import GuestOnly from '../components/auth/GuestOnly'
 
 
 const Home = () => {
   return (
-    <>
+    <GuestOnly>
       <ThemedView style={styles.container}>
         <ThemedLogoImage />
         <Spacer height={20} />
@@ -29,7 +30,7 @@ const Home = () => {
           <ThemedText>Profile</ThemedText>
         </Link>
       </ThemedView>
-    </>
+    </GuestOnly>
   )
 }
 

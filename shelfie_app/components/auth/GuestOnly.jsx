@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import useUser from "../../hooks/useUser"
-import { Text } from "react-native"
+import ThemedLoader from "../ThemedLoader"
 
 const GuestOnly = ({children}) => {
     const {user, authChecked } = useUser()
@@ -19,7 +19,7 @@ const GuestOnly = ({children}) => {
     // Render Loading Screen when we're still syncing with Appwrite
     if(!authChecked || user) {
         return (
-            <Text>Loading...</Text>
+            <ThemedLoader />
         )
     }
     
