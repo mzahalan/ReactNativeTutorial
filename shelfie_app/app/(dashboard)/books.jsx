@@ -1,10 +1,13 @@
 import { StyleSheet } from 'react-native'
+import { useBooks } from '../../hooks/useBooks'
 
 import Spacer from '../../components/Spacer'
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 
 const Books = () => {
+  const { books, getBooks } = useBooks()
+
   return (
     <ThemedView safe={true} style={styles.container}>
         {/*<Spacer />*/}

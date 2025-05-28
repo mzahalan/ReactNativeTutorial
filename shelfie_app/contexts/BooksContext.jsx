@@ -1,6 +1,6 @@
-import { useState, createContext } from 'react'
+import { useState, createContext, useEffect } from 'react'
 import { databases } from '../lib/appwrite'
-import { ID, Permission, Role } from 'react-native-appwrite'
+import { ID, Permission, Query, Role } from 'react-native-appwrite'
 import useUser from '../hooks/useUser'
 
 export const BooksContext = createContext()
@@ -16,9 +16,15 @@ export function BooksProvider({ children }) {
     async function getBooks() {
         setLoading(true)
         try {
-            //const response = await fetch('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<YOUR_GoogleAPIKey_HERE>')
-            //const data = await response.json()
-            //setBooks(data.items)
+            const response = await databases.listDocuments(
+                DATABSE_ID, 
+                COLLECTION_ID,
+                [
+                    Query.equal('userid', user.$id)
+                ]
+            )
+            setBooks(response.documents)
+            console.log(response)
         } catch (error) {
             console.log(error)
         } finally {
@@ -46,6 +52,7 @@ export function BooksProvider({ children }) {
                     Permission.delete(Role.user(user.$id))
                 ]
             )
+            await getBooks()
         } catch (error) {
             console.log(error)
         } 
@@ -56,6 +63,15 @@ export function BooksProvider({ children }) {
             console.log(error)
         } 
     }
+
+    useEffect(() => {
+        if(user) {
+            getBooks()
+        } else {
+            setBooks([])
+        }
+
+    }, [user])
 
     return (
         <BooksContext.Provider value={{books, getBooks, getBookById, createBook, deleteBook}}>
