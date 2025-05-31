@@ -1,5 +1,5 @@
 import { useState, createContext, useEffect } from 'react'
-import { databases } from '../lib/appwrite'
+import { databases, client } from '../lib/appwrite'
 import { ID, Permission, Query, Role } from 'react-native-appwrite'
 import useUser from '../hooks/useUser'
 
@@ -52,7 +52,7 @@ export function BooksProvider({ children }) {
                     Permission.delete(Role.user(user.$id))
                 ]
             )
-            await getBooks()
+            //await getBooks()
         } catch (error) {
             console.log(error)
         } 
@@ -65,12 +65,41 @@ export function BooksProvider({ children }) {
     }
 
     useEffect(() => {
+        let unsubscribe
+        const channel = `databases.${DATABSE_ID}.collections.${COLLECTION_ID}.documents`
+        
         if(user) {
             getBooks()
+
+            try {
+                unsubscribe = client.subscribe(channel, (response) => {
+                    const {payload, events } = response
+                    console.log("EVENTS: ")
+                    console.log(JSON.stringify(events))
+                    if (events[0].includes('create')) {
+                        console.log('A NEW BOOK WAS CREATED')
+                        setBooks(prevBooks => [payload, ...prevBooks])
+                    }/*
+                    if (events[0].includes('delete')) {
+                        console.log('A BOOK WAS DELETED')
+                        console.log(payload)
+                        setBooks(prevBooks => prevBooks.filter(book => book.$id !== payload.$id))
+                    }*/
+                })
+                console.log("()xxxx[[::::Listening for Book List Changes::::>")
+            } catch (error) {
+                console.log(error)
+            }
+
         } else {
             setBooks([])
         }
 
+        return () => {
+            if (unsubscribe) {
+                unsubscribe()
+            }
+        }
     }, [user])
 
     return (
