@@ -22,9 +22,7 @@ export function BooksProvider({ children }) {
                 ]
             )
             setBooks(response.documents)
-            console.log(`Loaded ${(response.documents).length} books`)
         } catch (error) {
-            console.log(error)
         } finally {
         }
     }
@@ -38,7 +36,6 @@ export function BooksProvider({ children }) {
             )
             return response
         } catch (error) {
-            console.log(error)
         } 
     }
 
@@ -81,13 +78,10 @@ export function BooksProvider({ children }) {
             try {
                 unsubscribe = client.subscribe(channel, (response) => {
                     const {payload, events } = response
-                    console.log(events[0])
                     if (events[0].includes('create')) {
-                        console.log('A NEW BOOK WAS CREATED')
                         setBooks(prevBooks => [payload, ...prevBooks])
                     }
                     if (events[0].includes('delete')) {
-                        console.log('A BOOK WAS DELETED')
                         setBooks(prevBooks => prevBooks.filter(book => book.$id !== payload.$id))
                     }
                 })

@@ -22,12 +22,10 @@ const Login = () => {
 
     const handleSubmit = async () => {
         setError(null)
-        console.log(`Login form submitted: email: ${email}, password: ${password}`)
 
         try{
             await login(email, password)
         }catch(error){
-            console.log(error.message)
             setError(error.message)
         }
 
