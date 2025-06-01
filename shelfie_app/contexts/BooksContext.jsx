@@ -10,11 +10,9 @@ const COLLECTION_ID = '68368a0f0008212937e0'
 
 export function BooksProvider({ children }) {
     const [books, setBooks] = useState([])
-    const [loading, setLoading] = useState(false)
     const { user } = useUser()
 
     async function getBooks() {
-        setLoading(true)
         try {
             const response = await databases.listDocuments(
                 DATABSE_ID, 
@@ -28,7 +26,6 @@ export function BooksProvider({ children }) {
         } catch (error) {
             console.log(error)
         } finally {
-            setLoading(false)
         }
     }
 
@@ -58,13 +55,17 @@ export function BooksProvider({ children }) {
                     Permission.delete(Role.user(user.$id))
                 ]
             )
-            //await getBooks()
         } catch (error) {
             console.log(error)
         } 
     }
     async function deleteBook(id) {
         try {
+            await databases.deleteDocument(
+                DATABSE_ID,
+                COLLECTION_ID,
+                id
+            )
         } catch (error) {
             console.log(error)
         } 
@@ -80,17 +81,15 @@ export function BooksProvider({ children }) {
             try {
                 unsubscribe = client.subscribe(channel, (response) => {
                     const {payload, events } = response
-                    console.log("EVENTS: ")
-                    console.log(JSON.stringify(events))
+                    console.log(events[0])
                     if (events[0].includes('create')) {
                         console.log('A NEW BOOK WAS CREATED')
                         setBooks(prevBooks => [payload, ...prevBooks])
-                    }/*
+                    }
                     if (events[0].includes('delete')) {
                         console.log('A BOOK WAS DELETED')
-                        console.log(payload)
                         setBooks(prevBooks => prevBooks.filter(book => book.$id !== payload.$id))
-                    }*/
+                    }
                 })
                 console.log("()xxxx[[::::Listening for Book List Changes::::>")
             } catch (error) {
