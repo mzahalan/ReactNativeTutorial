@@ -24,7 +24,7 @@ export function BooksProvider({ children }) {
                 ]
             )
             setBooks(response.documents)
-            console.log(response)
+            console.log(`Loaded ${(response.documents).length} books`)
         } catch (error) {
             console.log(error)
         } finally {
@@ -34,6 +34,12 @@ export function BooksProvider({ children }) {
 
     async function getBookById(id) {
         try {
+            const response = await databases.getDocument(
+                DATABSE_ID,
+                COLLECTION_ID,
+                id
+            )
+            return response
         } catch (error) {
             console.log(error)
         } 
